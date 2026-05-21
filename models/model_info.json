@@ -1,0 +1,39 @@
+{
+  "features": [
+    "husband_income_monthly",
+    "wife_income_monthly",
+    "marriage_duration_years",
+    "number_of_children",
+    "wife_employed"
+  ],
+  "feature_importance": [
+    {
+      "feature": "husband_income_monthly",
+      "importance": 0.5488967895507812
+    },
+    {
+      "feature": "wife_income_monthly",
+      "importance": 0.1379867047071457
+    },
+    {
+      "feature": "wife_employed",
+      "importance": 0.12835577130317688
+    },
+    {
+      "feature": "marriage_duration_years",
+      "importance": 0.09393350034952164
+    },
+    {
+      "feature": "number_of_children",
+      "importance": 0.09082722663879395
+    }
+  ],
+  "metrics": {
+    "mae_test": 3330.785946451823,
+    "rmse_test": 7171.911971300163,
+    "r2_test": 0.5666014743336112,
+    "mape_test": 61.06148653213266,
+    "within_20pct": 69.66666666666667
+  },
+  "epochs_trained": 108
+}

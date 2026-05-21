@@ -1,0 +1,14 @@
+﻿Output/dataset/
+dataset_decoded/
+justice_data.zip
+*.zip
+*.csv
+*.pkl
+*.h5
+*.joblib
+__pycache__/
+*.pyc
+venv/
+.env
+.DS_Store
+.ipynb_checkpoints/

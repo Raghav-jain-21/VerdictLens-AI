@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verdict Lens | AI Legal Intelligence</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+    <div class="bg-pattern"></div>
+
+    <!-- Navbar -->
+    <nav class="glass-nav sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <div class="flex items-center gap-3 cursor-pointer" onclick="switchTab('news')">
+                    <div class="w-10 h-10 bg-[#0f172a] rounded flex items-center justify-center text-[#b4912f]">
+                        <i class="fa-solid fa-scale-balanced text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold text-[#0f172a] tracking-tight font-serif">Verdict Lens</h1>
+                        <p class="text-[10px] text-slate-500 font-bold tracking-widest uppercase font-sans">Legal Intelligence System</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center gap-4">
+                    <button onclick="switchTab('dashboard')" class="hidden md:flex px-4 py-2 border border-slate-300 text-slate-600 hover:border-[#0f172a] hover:text-[#0f172a] text-xs font-bold rounded uppercase tracking-wide transition items-center gap-2 bg-white">
+                        <i class="fa-solid fa-chart-line"></i> Analytics
+                    </button>
+                    
+                    <div id="auth-container">
+                        <button onclick="openLoginModal()" id="btn-login" class="px-6 py-2 bg-[#0f172a] text-white hover:bg-[#1e293b] text-xs font-bold rounded uppercase tracking-wide transition shadow-md">
+                            Log In
+                        </button>
+                        <div id="user-profile" class="hidden flex items-center gap-4">
+                            <span class="text-xs font-bold text-[#0f172a] uppercase tracking-wide border-r border-slate-300 pr-4">Adv. User</span>
+                            <button onclick="handleLogout()" class="text-slate-400 hover:text-red-600 transition"><i class="fa-solid fa-right-from-bracket text-lg"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <div class="text-center pt-12 pb-8 px-4">
+        <h2 class="text-4xl font-bold text-[#0f172a] mb-3">Legal Assistant Hub</h2>
+        <p class="text-slate-500 text-lg font-light italic">Advanced AI predictions for Indian Family Law</p>
+    </div>
+
+    <main class="max-w-6xl mx-auto px-4 pb-20">
+        
+        <!-- Tool Navigation -->
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
+            <button onclick="switchTab('news')" id="btn-news" class="nav-card active">
+                <i class="fa-solid fa-newspaper"></i><span>Legal Briefs</span>
+            </button>
+            <button onclick="switchTab('alimony')" id="btn-alimony" class="nav-card">
+                <i class="fa-solid fa-coins"></i><span>Alimony Calc</span>
+            </button>
+            <button onclick="switchTab('divorce')" id="btn-divorce" class="nav-card">
+                <i class="fa-solid fa-gavel"></i><span>Divorce</span>
+            </button>
+            <button onclick="switchTab('custody')" id="btn-custody" class="nav-card">
+                <i class="fa-solid fa-hands-holding-child"></i><span>Custody</span>
+            </button>
+            <button onclick="switchTab('maintenance')" id="btn-maintenance" class="nav-card">
+                <i class="fa-solid fa-file-invoice-dollar"></i><span>Maintenance</span>
+            </button>
+            <button onclick="switchTab('other')" id="btn-other" class="nav-card">
+                <i class="fa-solid fa-scale-unbalanced"></i><span>Disputes</span>
+            </button>
+        </div>
+
+        <!-- Content Panel -->
+        <div class="content-panel fade-in">
+
+            <!-- 1. NEWS SECTION -->
+            <div id="news-section" class="block">
+                <div class="flex justify-between items-center mb-8 pb-4 border-b border-slate-200">
+                    <h3 class="section-title !mb-0 !border-0">Daily Legal Briefing</h3>
+                    <span class="flex items-center gap-2 px-3 py-1 rounded-full bg-green-50 border border-green-200 text-green-700 text-xs font-bold uppercase tracking-wide">
+                        <span class="relative flex h-2 w-2">
+                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                          <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                        </span>
+                        Live Updates
+                    </span>
+                </div>
+                <div id="news-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- JS will load news here -->
+                </div>
+            </div>
+
+            <!-- 2. ALIMONY FORM -->
+            <div id="alimony-section" class="hidden">
+                <h3 class="section-title">Alimony Estimator</h3>
+                <form id="alimonyForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="input-group">
+                        <label>Husband's Income (Annual ₹)</label>
+                        <input type="number" id="ali_h" placeholder="12,00,000" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Wife's Income (Annual ₹)</label>
+                        <input type="number" id="ali_w" placeholder="4,00,000">
+                    </div>
+                    <div class="input-group">
+                        <label>Is Wife Employed?</label>
+                        <select id="ali_w_employed" class="std-select" onchange="toggleWifeIncome()">
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Marriage Duration (Years)</label>
+                        <input type="number" id="ali_y" placeholder="5" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Children Count</label>
+                        <input type="number" id="ali_k" placeholder="1" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Total Assets (₹)</label>
+                        <input type="number" id="ali_a" placeholder="50,00,000" required>
+                    </div>
+                    <div class="md:col-span-2 mt-4">
+                        <button type="submit" class="action-btn">Calculate Settlement</button>
+                    </div>
+                </form>
+                <div id="ali-res" class="result-box hidden"></div>
+            </div>
+
+            <!-- 3. DIVORCE FORM -->
+            <div id="divorce-section" class="hidden">
+                <h3 class="section-title">Divorce Outcome Predictor</h3>
+                <form onsubmit="handleLegalSubmit(event, 'divorce')" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="input-group"><label>Jurisdiction (State)</label><input type="text" name="state_name" required placeholder="Maharashtra"></div>
+                    <div class="input-group"><label>District Court</label><input type="text" name="dist_name" required placeholder="Pune"></div>
+                    <div class="input-group"><label>Applicable Act</label><select name="act_section" class="std-select"><option value="Sec 13B HMA">Sec 13B HMA (Mutual)</option><option value="Sec 13(1) HMA">Sec 13(1) HMA (Contested)</option></select></div>
+                    <div class="input-group"><label>Case Number</label><input type="number" name="court_no" required placeholder="1"></div>
+                    <div class="input-group"><label>Petitioner Gender</label><select name="female_petitioner" class="std-select"><option value="1">Female</option><option value="0">Male</option></select></div>
+                    <div class="input-group"><label>Respondent Gender</label><select name="female_defendant" class="std-select"><option value="1">Female</option><option value="0">Male</option></select></div>
+                    <div class="input-group md:col-span-2"><label>Presiding Officer Rank</label><input type="text" name="judge_position" placeholder="District Judge"></div>
+                    <input type="hidden" name="year" value="2024">
+                    <button type="submit" class="action-btn md:col-span-2">Analyze Probability</button>
+                </form>
+                <div id="divorce-res" class="result-box hidden"></div>
+            </div>
+
+            <!-- 4. CUSTODY FORM -->
+            <div id="custody-section" class="hidden">
+                <h3 class="section-title">Child Custody Analysis</h3>
+                <form onsubmit="handleLegalSubmit(event, 'custody')" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="input-group"><label>State</label><input type="text" name="state_name" required></div>
+                    <div class="input-group"><label>District</label><input type="text" name="dist_name" required></div>
+                    <div class="input-group"><label>Petitioner (Parent)</label><select name="female_petitioner" class="std-select"><option value="1">Mother</option><option value="0">Father</option></select></div>
+                    <div class="input-group"><label>Judge</label><input type="text" name="judge_position"></div>
+                    <div class="input-group md:col-span-2"><label>Section</label><select name="act_section" class="std-select"><option value="Sec 6 HMGA">Sec 6 HMGA</option><option value="Sec 25 GWA">Sec 25 GWA</option></select></div>
+                    <input type="hidden" name="court_no" value="1">
+                    <button type="submit" class="action-btn md:col-span-2">Predict Custody</button>
+                </form>
+                <div id="custody-res" class="result-box hidden"></div>
+            </div>
+
+            <!-- 5. MAINTENANCE FORM -->
+            <div id="maintenance-section" class="hidden">
+                <h3 class="section-title">Maintenance Grant</h3>
+                <form onsubmit="handleLegalSubmit(event, 'maintenance')" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="input-group"><label>State</label><input type="text" name="state_name" required></div>
+                    <div class="input-group"><label>District</label><input type="text" name="dist_name" required></div>
+                    <div class="input-group"><label>Petitioner</label><select name="female_petitioner" class="std-select"><option value="1">Female</option><option value="0">Male</option></select></div>
+                    <div class="input-group"><label>Respondent</label><select name="female_defendant" class="std-select"><option value="0">Male</option><option value="1">Female</option></select></div>
+                    <div class="input-group md:col-span-2"><label>Act</label><select name="act_section" class="std-select"><option value="Sec 125 CrPC">Sec 125 CrPC</option><option value="Sec 24 HMA">Sec 24 HMA</option></select></div>
+                    <div class="input-group md:col-span-2"><label>Judge Position</label><input type="text" name="judge_position"></div>
+                    <button type="submit" class="action-btn md:col-span-2">Predict Grant</button>
+                </form>
+                <div id="maintenance-res" class="result-box hidden"></div>
+            </div>
+
+            <!-- 6. OTHER DISPUTES FORM -->
+            <div id="other-section" class="hidden">
+                <h3 class="section-title">Other Family Disputes</h3>
+                <form onsubmit="handleLegalSubmit(event, 'other')" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="input-group"><label>State</label><input type="text" name="state_name" required></div>
+                    <div class="input-group"><label>District</label><input type="text" name="dist_name" required></div>
+                    <div class="input-group"><label>Dispute Type</label><select name="dispute_type" class="std-select"><option>Property Dispute</option><option>Domestic Violence</option><option>Inheritance</option></select></div>
+                    <div class="input-group"><label>Act</label><select name="act_section" class="std-select"><option value="DV Act">DV Act</option><option value="IPC 498A">IPC 498A</option></select></div>
+                    <div class="input-group"><label>Petitioner Gender</label><select name="female_petitioner" class="std-select"><option value="1">Female</option><option value="0">Male</option></select></div>
+                    <div class="input-group"><label>Judge Position</label><input type="text" name="judge_position"></div>
+                    <button type="submit" class="action-btn md:col-span-2">Analyze Case</button>
+                </form>
+                <div id="other-res" class="result-box hidden"></div>
+            </div>
+
+            <!-- 7. DASHBOARD -->
+            <div id="dashboard-section" class="hidden">
+                <h3 class="section-title">Analytics Dashboard</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                    <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+                        <h4 class="text-xs font-bold text-slate-500 mb-4 uppercase tracking-widest">Key Factors</h4>
+                        <canvas id="featureChart"></canvas>
+                    </div>
+                    <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 flex flex-col items-center">
+                        <h4 class="text-xs font-bold text-slate-500 mb-4 uppercase tracking-widest">Outcome Ratios</h4>
+                        <div class="w-64 h-64"><canvas id="outcomeChart"></canvas></div>
+                    </div>
+                </div>
+                <div class="bg-white border border-slate-200 rounded-xl overflow-hidden">
+                    <h4 class="text-xs font-bold text-slate-500 p-4 bg-slate-50 border-b border-slate-200 uppercase tracking-widest">Recent Case History</h4>
+                    <table class="w-full text-sm text-left text-slate-600">
+                        <thead class="text-xs text-slate-700 uppercase bg-white">
+                            <tr><th class="px-6 py-4">Date</th><th class="px-6 py-4">Category</th><th class="px-6 py-4">Jurisdiction</th><th class="px-6 py-4">Verdict</th></tr>
+                        </thead>
+                        <tbody id="history-table-body" class="bg-slate-50/50"></tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="simple-footer py-12 mt-12 border-t border-slate-200 bg-white">
+        <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12 text-sm">
+            <div class="col-span-1 md:col-span-2">
+                <h3 class="text-[#0f172a] font-serif font-bold text-xl mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-scale-balanced text-[#b4912f]"></i> Verdict Lens
+                </h3>
+                <p class="text-slate-500 leading-relaxed max-w-sm">
+                    Pioneering AI in the Indian Judicial System. We provide data-driven legal analytics to empower attorneys with accurate case outcome predictions.
+                </p>
+            </div>
+            <div>
+                <h4 class="text-[#0f172a] font-bold mb-6 uppercase tracking-widest text-xs">Quick Links</h4>
+                <ul class="space-y-3">
+                    <li><a href="#" onclick="switchTab('news')" class="hover:text-[#b4912f] transition">Legal Briefs</a></li>
+                    <li><a href="#" onclick="switchTab('alimony')" class="hover:text-[#b4912f] transition">Calculators</a></li>
+                    <li><a href="#" onclick="switchTab('dashboard')" class="hover:text-[#b4912f] transition">Analytics</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-[#0f172a] font-bold mb-6 uppercase tracking-widest text-xs">Contact</h4>
+                <ul class="space-y-3 text-slate-500">
+                    <li><i class="fa-solid fa-envelope mr-3 text-slate-400"></i> legal@verdictlens.ai</li>
+                    <li><i class="fa-solid fa-building-columns mr-3 text-slate-400"></i> New Delhi, India</li>
+                </ul>
+            </div>
+        </div>
+        <div class="max-w-6xl mx-auto px-6 mt-12 pt-8 border-t border-slate-100 text-center text-slate-400 text-xs">
+            &copy; 2025 Verdict Lens AI. Confidential & Proprietary.
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="fixed inset-0 z-[100] hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center">
+        <div class="bg-white rounded-xl shadow-2xl p-10 w-full max-w-md relative">
+            <button onclick="closeLoginModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-xl"></i></button>
+            <div class="text-center mb-8">
+                <div class="w-14 h-14 bg-[#0f172a] rounded-xl flex items-center justify-center text-white mx-auto mb-4 shadow-lg"><i class="fa-solid fa-user-tie text-2xl"></i></div>
+                <h3 id="auth-title" class="text-2xl font-serif font-bold text-[#0f172a]">Attorney Login</h3>
+                <p id="auth-subtitle" class="text-slate-500 text-sm mt-2">Secure access to case analytics</p>
+            </div>
+            <form id="login-form" onsubmit="handleLogin(event)" class="space-y-5">
+                <input type="email" placeholder="Bar ID / Email" required class="w-full p-3 border border-slate-300 rounded-lg outline-none focus:border-[#0f172a] transition bg-slate-50">
+                <input type="password" placeholder="Password" required class="w-full p-3 border border-slate-300 rounded-lg outline-none focus:border-[#0f172a] transition bg-slate-50">
+                <button type="submit" class="w-full py-3 bg-[#0f172a] hover:bg-[#1e293b] text-white font-bold rounded-lg shadow-lg transition uppercase tracking-wide text-sm">Access Portal</button>
+                <div class="text-center mt-4"><a href="#" onclick="toggleAuthMode('signup')" class="text-[#b4912f] hover:underline font-semibold text-sm">Request Access</a></div>
+            </form>
+            <form id="signup-form" onsubmit="handleSignup(event)" class="space-y-4 hidden">
+                <div class="grid grid-cols-2 gap-4">
+                    <input type="text" placeholder="First Name" class="w-full p-3 border border-slate-300 rounded-lg bg-slate-50">
+                    <input type="text" placeholder="Last Name" class="w-full p-3 border border-slate-300 rounded-lg bg-slate-50">
+                </div>
+                <input type="email" placeholder="Email Address" class="w-full p-3 border border-slate-300 rounded-lg bg-slate-50">
+                <input type="password" placeholder="Password" class="w-full p-3 border border-slate-300 rounded-lg bg-slate-50">
+                <button type="submit" class="w-full py-3 bg-[#0f172a] hover:bg-[#1e293b] text-white font-bold rounded-lg shadow-lg transition uppercase tracking-wide text-sm">Register</button>
+                <div class="text-center mt-4"><a href="#" onclick="toggleAuthMode('login')" class="text-slate-400 hover:text-slate-600 text-sm">Back to Login</a></div>
+            </form>
+        </div>
+    </div>
+
+    <script src="/script.js"></script>
+</body>
+</html>

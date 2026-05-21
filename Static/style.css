@@ -1,0 +1,192 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+:root {
+    --bg-body: #f1f5f9;       /* Light Grey (Paper-like) */
+    --bg-card: #ffffff;       /* Pure White */
+    --primary: #0f172a;       /* Deep Navy (Legal Authority) */
+    --accent: #b4912f;        /* Antique Gold (Justice) */
+    --accent-hover: #947620;
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --border: #e2e8f0;
+}
+
+body {
+    font-family: 'Inter', sans-serif; /* Clean sans-serif for reading */
+    background-color: var(--bg-body);
+    color: var(--text-main);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Legal Headings */
+h1, h2, h3, .section-title, .nav-card span {
+    font-family: 'Playfair Display', serif; /* Professional Serif for Titles */
+}
+
+/* Subtle Legal Pattern Background */
+.bg-pattern {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-image: 
+        linear-gradient(30deg, #cbd5e1 12%, transparent 12.5%, transparent 87%, #cbd5e1 87.5%, #cbd5e1),
+        linear-gradient(150deg, #cbd5e1 12%, transparent 12.5%, transparent 87%, #cbd5e1 87.5%, #cbd5e1),
+        linear-gradient(30deg, #cbd5e1 12%, transparent 12.5%, transparent 87%, #cbd5e1 87.5%, #cbd5e1),
+        linear-gradient(150deg, #cbd5e1 12%, transparent 12.5%, transparent 87%, #cbd5e1 87.5%, #cbd5e1),
+        linear-gradient(60deg, #cbd5e177 25%, transparent 25.5%, transparent 75%, #cbd5e177 75%, #cbd5e177),
+        linear-gradient(60deg, #cbd5e177 25%, transparent 25.5%, transparent 75%, #cbd5e177 75%, #cbd5e177);
+    background-size: 80px 140px;
+    background-position: 0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px;
+    opacity: 0.05; /* Very subtle */
+    z-index: -1;
+}
+
+/* Navbar */
+.glass-nav {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid #cbd5e1;
+}
+
+/* Navigation Cards */
+.nav-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-card);
+    padding: 1.25rem;
+    border-radius: 0.5rem; /* Sharper corners for professional look */
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    transition: all 0.2s ease;
+    cursor: pointer;
+    color: var(--text-muted);
+    min-width: 100px;
+}
+
+.nav-card i {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--primary);
+}
+
+.nav-card span {
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.02em;
+}
+
+.nav-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--accent);
+    color: var(--primary);
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);
+}
+
+.nav-card.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.3);
+}
+
+.nav-card.active i { color: var(--accent); }
+
+/* Main Content Panel */
+.content-panel {
+    background: var(--bg-card);
+    border-radius: 0.75rem;
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+    padding: 2.5rem;
+    margin-top: 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Decorative Top Border for Panel */
+.content-panel::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: var(--primary);
+}
+
+/* Form Elements */
+.input-group label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+}
+
+.input-group input, .std-select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 0.375rem;
+    border: 1px solid #cbd5e1;
+    background: #f8fafc;
+    color: var(--primary);
+    transition: all 0.2s;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+}
+
+.input-group input:focus, .std-select:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: white;
+    box-shadow: 0 0 0 3px rgba(180, 145, 47, 0.1);
+}
+
+/* Buttons */
+.action-btn {
+    width: 100%;
+    background: var(--primary);
+    color: white;
+    font-weight: 600;
+    padding: 0.875rem;
+    border-radius: 0.375rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: background 0.2s;
+}
+
+.action-btn:hover {
+    background: #1e293b; /* Slightly lighter navy */
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.2);
+}
+
+/* Results */
+.result-box {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: #f8fafc;
+    border-left: 4px solid var(--accent);
+    border-radius: 0 0.5rem 0.5rem 0;
+}
+
+/* Section Title */
+.section-title {
+    font-size: 1.75rem;
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+}
+
+/* Footer */
+.simple-footer {
+    border-top: 1px solid var(--border);
+    background: white;
+    color: var(--text-muted);
+}
+
+/* Animations */
+.fade-in { animation: fadeIn 0.5s ease-out forwards; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
